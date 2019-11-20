@@ -1,4 +1,4 @@
-package com.tongji.meeting.util;
+package com.tongji.meeting.util.redis;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

@@ -1,4 +1,4 @@
-package com.tongji.meeting.util;
+package com.tongji.meeting.util.redis;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

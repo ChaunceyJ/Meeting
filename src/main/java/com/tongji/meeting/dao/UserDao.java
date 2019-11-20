@@ -17,6 +17,6 @@ public interface UserDao {
 
     List<UserDomain> selectUsers();
 
-    void ins();
+    UserDomain selectUsersByOpenid(@Param("openid") String openid);
 
 }

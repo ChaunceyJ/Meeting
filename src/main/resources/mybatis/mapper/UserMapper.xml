@@ -46,4 +46,14 @@
         FROM
         <include refid="BASE_TABLE"/>
     </select>
+
+    <select id="selectUsersByOpenid" resultType="com.tongji.meeting.model.UserDomain">
+        SELECT
+        <include refid="BASE_COLUMN"/>
+        FROM
+        <include refid="BASE_TABLE"/>
+        <where>
+            openid = #{openid, jdbcType=VARCHAR}
+        </where>
+    </select>
 </mapper>
