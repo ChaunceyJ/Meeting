@@ -25,7 +25,7 @@ public class UserController {
     public ResponseEntity loginByWechat(@RequestParam(value = "code", required = true) String code){
         HashMap result =  new HashMap<String, String>();
         // 1.接收小程序发送的code
-        // 2.开发者服务器 登录凭证校验接口 appi + appsecret + code
+        // 2.开发者服务器 登录凭证校验接口 appid + appsecret + code
         JSONObject SessionKeyOpenId = WechatUtil.getSessionKeyOrOpenId(code);
         // 3.接收微信接口服务 获取返回的参数
         if (SessionKeyOpenId.getInteger("errcode").intValue() != 0){
