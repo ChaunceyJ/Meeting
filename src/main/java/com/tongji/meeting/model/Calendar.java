@@ -3,7 +3,7 @@ package com.tongji.meeting.model;
 public class Calendar {
     private int calendarId;
     private String calendarName;
-//
+
     public void setCalendarId(int calendarId) {
         this.calendarId = calendarId;
     }
