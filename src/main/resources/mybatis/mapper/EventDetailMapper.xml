@@ -10,14 +10,24 @@
         <result property="startTime" column="start_time"/>
         <result property="endTime" column="end_time"/>
         <result property="isRepeat" column="is_repeat"/>
+<!--一对一-->
+<!--  <association property="role" columnPrefix="role_" resultMap="mapper.SysRoleMapper.roleMapper"/>-->
+<!--  一对多
+<collection property="privilegeList" columnPrefix="pri_" resultMap="mapper.SysUserMapper.privilegeMap"/>-->
     </resultMap>
+
+
 
     <!--"useGeneratedKeys" supports primary key auto-increment,
     which is identified by "keyProperty"-->
-    <insert id="insertEventDetail" useGeneratedKeys="true" keyProperty="detail_id"
-            parameterType="EventDetail">
-        insert into event_detail (title, content, start_time, end_time, is_repeat)
-        values (#{title}, #{content}, #{start_time}, #{end_time}, #{is_repeat})
-    </insert>
+<!--    <insert id="insertEventDetail" useGeneratedKeys="true" keyProperty="detail_id"-->
+<!--            parameterType="EventDetail">-->
+<!--        insert into event_detail (title, content, start_time, end_time, is_repeat)-->
+<!--        values (#{title}, #{content}, #{start_time}, #{end_time}, #{is_repeat})-->
+<!--    </insert>-->
+
+    <select id="selectAll" resultMap="eventDetailResultMap">
+        SELECT * FROM event_detail
+    </select>
 
 </mapper>
