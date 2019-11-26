@@ -1,6 +1,8 @@
 package com.tongji.meeting.service;
 
+import com.tongji.meeting.dao.EventDao;
 import com.tongji.meeting.dao.EventDetailDao;
+import com.tongji.meeting.model.Event;
 import com.tongji.meeting.model.EventDetail;
 import com.tongji.meeting.model.UserDomain;
 import com.tongji.meeting.util.GlobalValues;
@@ -17,8 +19,21 @@ public class EventService {
     @Autowired
     private EventDetailDao eventDetailDao;
 
-    public List<EventDetail> selectAll() {
-        return eventDetailDao.selectAll();
+    @Autowired
+    private EventDao eventDao;
+
+//    public List<EventDetail> selectAll() {
+//        return eventDetailDao.selectAll();
+//    }
+
+    public void addNewEvent(EventDetail eventDetail, Event event) {
+        eventDetailDao.addNewEvent(eventDetail);
+        //get just-inserted event_detail row primary key
+        int detailId = eventDetail.getDetailId();
+        event.setDetailId(detailId);
+        eventDao.addNewEvent(event);
     }
+
+
 
 }

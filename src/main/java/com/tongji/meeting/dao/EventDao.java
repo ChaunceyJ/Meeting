@@ -7,12 +7,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface EventDao {
 
-    int insert(Event event);
-
-    void deleteEventById(int eventId);
-
-    void updateEventPriority(Event event);
-
-    Event selectEventByUserId(int userId);
+    void addNewEvent(Event event);
 
 }

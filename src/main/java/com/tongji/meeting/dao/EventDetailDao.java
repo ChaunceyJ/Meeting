@@ -8,6 +8,6 @@ import java.util.List;
 
 @Mapper
 public interface EventDetailDao {
-    //int insertEventDetail(EventDetail eventDetail);
-    List<EventDetail> selectAll();
+    //List<EventDetail> selectAll();
+    void addNewEvent(EventDetail eventDetail);
 }

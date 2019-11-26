@@ -1,6 +1,8 @@
 package com.tongji.meeting.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tongji.meeting.model.Event;
+import com.tongji.meeting.model.EventDetail;
 import com.tongji.meeting.model.UserDomain;
 import com.tongji.meeting.service.EventService;
 import com.tongji.meeting.service.UserService;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -53,24 +57,43 @@ public class EventController {
 //        return ResponseEntity.ok("添加成功");
 //    }
 
-    @RequestMapping(value = "/testtest" , method = RequestMethod.GET ,produces = "application/json")
-    public ResponseEntity testetstesf(){
-        HashMap result = new HashMap<String, String>();
-        //result.put("1", skey);
-        eventService.selectAll();
-        return ResponseEntity.ok(eventService.selectAll());
-    }
+//    @RequestMapping(value = "/testtest" , method = RequestMethod.GET ,produces = "application/json")
+//    public ResponseEntity testetstesf(){
+//        HashMap result = new HashMap<String, String>();
+//        //result.put("1", skey);
+//        eventService.selectAll();
+//        return ResponseEntity.ok(eventService.selectAll());
+//    }
 
     @RequestMapping(value = "/addNewEvent" , method = RequestMethod.GET ,produces = "application/json")
     public ResponseEntity addNewEvent(
-            @RequestParam(value = "userName", required = true)
-                    String userName,
-            @RequestParam(value = "openid", required = true)
-                    String openid
+            @RequestParam(value = "title")
+                    String title,
+            @RequestParam(value = "content")
+                    String content,
+            @RequestParam(value = "priority")
+                    int priority,
+            @RequestParam(value = "startTime",required = false)
+                    Timestamp startTime,
+            @RequestParam(value = "endTime", required = false)
+                    Timestamp endTime,
+            @RequestParam(value = "calendarId")
+                    int calendarId
+
     ){
-        HashMap result = new HashMap<String, String>();
-        //result.put("1", skey);
-        eventService.selectAll();
-        return ResponseEntity.ok(eventService.selectAll());
+        EventDetail eventDetail = new EventDetail();
+        //startTime = new Timestamp(System.currentTimeMillis());
+        //endTime = new Timestamp(System.currentTimeMillis());
+        eventDetail.setStartTime(startTime);
+        eventDetail.setTitle(title);
+        eventDetail.setEndTime(endTime);
+        eventDetail.setContent(content);
+
+        Event event = new Event();
+        event.setCalendarId(calendarId);
+        event.setPriority(priority);
+
+        eventService.addNewEvent(eventDetail, event);
+        return ResponseEntity.ok("ok");
     }
 }
