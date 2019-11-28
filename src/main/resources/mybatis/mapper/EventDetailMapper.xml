@@ -3,7 +3,7 @@
 
 <mapper namespace="com.tongji.meeting.dao.EventDetailDao" >
 
-    <resultMap id="eventDetailResultMap" type="EventDetail">
+    <resultMap id="EventDetail" type="EventDetail">
         <id property="detailId" column="detail_id" />
         <result property="title" column="title"/>
         <result property="content" column="content"/>
@@ -15,12 +15,7 @@
 <collection property="privilegeList" columnPrefix="pri_" resultMap="mapper.SysUserMapper.privilegeMap"/>-->
     </resultMap>
 
-
-    <select id="selectAll" resultMap="eventDetailResultMap">
-        SELECT * FROM event_detail
-    </select>
-
-    <insert id="addNewEvent" parameterType="EventDetail" useGeneratedKeys="true"
+    <insert id="create" parameterType="EventDetail" useGeneratedKeys="true"
             keyProperty="detailId">
         INSERT INTO event_detail(title, content, start_time, end_time)
         VALUES (#{title},#{content},#{startTime},#{endTime})

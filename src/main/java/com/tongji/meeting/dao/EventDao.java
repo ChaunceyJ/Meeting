@@ -7,6 +7,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface EventDao {
 
-    void addNewEvent(Event event);
+    void create(Event event);
 
 }

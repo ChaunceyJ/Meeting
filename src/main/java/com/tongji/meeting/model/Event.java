@@ -5,9 +5,10 @@ public class Event {
     private int detailId;
     private int calendarId;
     private int priority;
-    private boolean isOverriden;
+
     //private EventDetail eventDetail;
     //get rid of detailId??
+
     public int getEventId() {
         return eventId;
     }
@@ -40,11 +41,4 @@ public class Event {
         this.priority = priority;
     }
 
-    public boolean isOverriden() {
-        return isOverriden;
-    }
-
-    public void setOverriden(boolean overriden) {
-        isOverriden = overriden;
-    }
 }
