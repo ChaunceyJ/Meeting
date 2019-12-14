@@ -5,6 +5,8 @@ public class UserCalendar {
     private int userId;
     private boolean disturb;
     private String role;
+    private boolean detailExposed;
+    private UserDomain userDomain;
 
     public int getCalendarId() {
         return calendarId;
@@ -37,4 +39,9 @@ public class UserCalendar {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public boolean isDetailExposed() { return detailExposed; }
+
+    public void setDetailExposed(boolean detailExposed) { this.detailExposed = detailExposed; }
+
 }
