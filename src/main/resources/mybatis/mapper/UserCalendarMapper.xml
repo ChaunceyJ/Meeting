@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongji.meeting.dao.UserCalendarDao" >
+    <resultMap id="userCalendarMap" type="UserCalendar">
+        <id property="userId" column="user_id"/>
+        <id property="calendarId" column="calendar_id"/>
+        <result property="disturb" column="is_dnd"/>
+        <result property="role" column="permission"/>
+        <result property="detailExposed" column="is_expose_detail"/>
+    </resultMap>
+
+    <insert id="createUCRelation" parameterType="UserCalendar">
+        INSERT INTO user_calendar(user_id,calendar_id,is_dnd,permission,is_expose_detail)
+        VALUES (#{userId},#{calendarId},#{disturb},#{role},#{detailExposed})
+    </insert>
+
+    <delete id="quitCalendar">
+        DELETE FROM user_calendar WHERE user_id=#{userId} AND calendar_id=#{calendarId}
+    </delete>
+
+    <update id="setNoDisturb">
+        UPDATE user_calendar
+        SET is_dnd=#{disturb}
+        WHERE user_id=#{userId} AND calendar_id=#{calendarId}
+    </update>
+
+    <update id="setDetailExposed">
+        UPDATE user_calendar
+        SET is_expose_detail=#{detailExposed}
+        WHERE user_id=#{userId} AND calendar_id=#{calendarId}
+    </update>
+
+</mapper>

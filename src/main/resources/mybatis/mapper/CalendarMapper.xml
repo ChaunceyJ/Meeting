@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongji.meeting.dao.CalendarDao" >
+    <resultMap id="calendarMap" type="Calendar">
+        <id property="calendarId" column="calendar_id"/>
+        <result property="calendarName" column="calendar_name"/>
+    </resultMap>
+
+    <insert id="createCalendar" parameterType="Calendar" useGeneratedKeys="true" keyProperty="calendarId">
+        INSERT INTO calendar(calendar_id,calendar_name)
+        VALUES (#{calendarId},#{calendarName})
+    </insert>
+
+    <delete id="disbandCalendar">
+        DELETE FROM calendar WHERE calendar_id=#{calendarId}
+    </delete>
+
+    <select id="getCreatedCalendar" resultMap="calendarMap">
+        SELECT c.*
+        FROM user_calendar uc LEFT JOIN calendar c ON uc.calendar_id=c.calendar_id
+        WHERE uc.user_id=#{userId} AND uc.permission="owner"
+    </select>
+
+    <select id="getParticipantCalendar" resultMap="calendarMap">
+        SELECT c.*
+        FROM user_calendar uc LEFT JOIN calendar c ON uc.calendar_id=c.calendar_id
+        WHERE uc.user_id=#{userId} AND uc.permission="participant"
+    </select>
+</mapper>
