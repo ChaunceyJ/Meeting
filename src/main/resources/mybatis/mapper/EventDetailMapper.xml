@@ -21,4 +21,23 @@
         VALUES (#{title},#{content},#{startTime},#{endTime})
     </insert>
 
+
+<!--    <update id="updateUser" parameterType="com.winterchen.model.UserDomain">-->
+<!--        UPDATE-->
+<!--        <include refid="BASE_TABLE"/>-->
+<!--        <set>-->
+<!--            <if test="userName != null">-->
+<!--                userName = #{userName, jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="password != null">-->
+<!--                password = #{password, jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="phone != null">-->
+<!--                phone = #{phone, jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--        </set>-->
+<!--        <where>-->
+<!--            userId = #{userId, jdbcType=INTEGER}-->
+<!--        </where>-->
+<!--    </update>-->
 </mapper>

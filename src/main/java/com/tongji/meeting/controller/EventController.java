@@ -24,8 +24,9 @@ public class EventController {
     //检查有权创建事件
     //在calendar里
 
+
     //再次检查创建权限
-    @ApiOperation(value = "创建新事件", notes="某用户在某日历中创建新事件，加入组员在别地方")
+    @ApiOperation(value = "创建新事件", notes="某用户在某日历中创建新事件，加入组员不在这个api")
     @RequestMapping(value = "/addNewEvent" , method = RequestMethod.GET ,produces = "application/json")
     public ResponseEntity addNewEvent(
             @RequestParam(value = "title")
@@ -57,6 +58,15 @@ public class EventController {
         eventService.addNewEvent(eventDetail, event, userDetail);
         return ResponseEntity.ok("ok");
     }
+
+//    @RequestMapping(value = "/test" , method = RequestMethod.GET ,produces = "application/json")
+//    public ResponseEntity test(
+//            @RequestParam(value = "title")
+//                    String title
+//
+//    ){
+//        return ResponseEntity.ok(title);
+//    }
 
     //在修改页面前先调用一次权限查询
     @ApiOperation(value = "查看修改权限", notes="查看用户是否有可修改某事件权限，返回权限级别")
@@ -106,21 +116,26 @@ public class EventController {
     @ApiOperation(value = "删除事件", notes="含：owner删除、reader删除")
     @RequestMapping(value = "/deleteEvent" , method = RequestMethod.GET ,produces = "application/json")
     public ResponseEntity deleteEvent(
-            @RequestParam(value = "userId") int userId
+            @RequestParam(value = "userId") int userId,
+            @RequestParam(value = "eventId") int eventId
     ){
+        Event event = new Event();
+        event.setEventId(eventId);
+        eventService.deleteEvent(event);
         return ResponseEntity.ok("Success!");
     }
-    //        HashMap result = new HashMap<String, String>();
 
-////        result.put("skey", skey);
-////        return ResponseEntity.ok(result);
 
     @ApiOperation(value = "显示某用户日历事件", notes="会得到用户对各个事件的权限说明")
     @RequestMapping(value = "/showFirstScreen" , method = RequestMethod.GET ,produces = "application/json")
     public ResponseEntity showFirstScreen(
-            @RequestParam(value = "userId") int userId
+            @RequestParam(value = "userId") int userId,
+            @RequestParam(value = "calendarId") int calendarId
     ){
-        return ResponseEntity.ok("Success!");
+        Calendar calendar = new Calendar();
+        calendar.setCalendarId(calendarId);
+
+        return ResponseEntity.ok(eventService.getEventByCalendar(calendar););
     }
 
     @ApiOperation(value = "发送共享事件邀请", notes="")
@@ -136,6 +151,17 @@ public class EventController {
     public ResponseEntity acceptEvent(
             @RequestParam(value = "userId") int userId
     ){
+        return ResponseEntity.ok("Success!");
+    }
+
+    @ApiOperation(value = "推荐时间", notes="")
+    @RequestMapping(value = "/recommend" , method = RequestMethod.GET ,produces = "application/json")
+    public ResponseEntity recommend(
+            @RequestParam(value = "calendarId") int calendarId
+    ){
+        Calendar calendar = new Calendar();
+        calendar.setCalendarId(calendarId);
+        eventService.recommend(calendar);
         return ResponseEntity.ok("Success!");
     }
 }

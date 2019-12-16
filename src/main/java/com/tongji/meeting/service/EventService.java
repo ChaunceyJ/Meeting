@@ -1,15 +1,19 @@
 package com.tongji.meeting.service;
 
+import com.tongji.meeting.FreeTime;
+import com.tongji.meeting.TimePeriod;
 import com.tongji.meeting.dao.EventDao;
 import com.tongji.meeting.dao.EventDetailDao;
 import com.tongji.meeting.dao.UserDeatilDao;
 import com.tongji.meeting.model.Event;
 import com.tongji.meeting.model.EventDetail;
 import com.tongji.meeting.model.UserDetail;
+import com.tongji.meeting.model.UserDomain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 
 @Service
@@ -52,6 +56,37 @@ public class EventService {
         return "1";
     }
 
+    public void deleteEvent(Event event) {
+        eventDao.delete(event);
+    }
+
+    public List<Event> getEventByCalendar(Calendar calendar){
+        return eventDao.retrieveByCalendar(calendar);
+    }
+
+    public List<EventDetail> getAllEventsOfOneUser(UserDomain userDomain) {
+        //先按permission分类
+        return getAllPrivateEventsOfOneUser(userDomain);
+    }
+
+    public List<EventDetail> getAllPrivateEventsOfOneUser(UserDomain userDomain) {
+        //先按permission分类
+        userDeatilDao.getAllEventsOfOneUser();
+    }
+    public List<EventDetail> getAllPublicEventsOfOneUser(UserDomain userDomain) {
+        //先按permission分类
+        userDeatilDao.getAllEventsOfOneUser();
+    }
+
+    public List<TimePeriod> recommend(Calendar calendar){
+        List<UserDomain> members = userCalendarDao.xxx();
+        List<EventDetail> eventDetails = new List<EventDetail>();
+        for (UserDomain member : members) {
+            eventDetails.add(getAllEventsOfOneUser(member));
+        }
+        FreeTime ft = new FreeTime(eventDetails);
+        return ft.computeFreeTime();
+    }
 
 
 }

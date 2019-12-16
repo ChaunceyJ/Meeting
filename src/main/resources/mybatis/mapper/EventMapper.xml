@@ -15,4 +15,12 @@
         INSERT INTO event(detail_id, calendar_id, priority, is_overriden)
         VALUES (#{detailId},#{calendarId},#{priority},#{isOverriden})
     </insert>
+
+    <delete id="delete" parameterType="Event">
+        delete from event where event_id = #{eventId};
+    </delete>
+
+    <select id="retrieveByCalendar" parameterType="Calendar" resultMap="Event">
+        select * from event where calendar_id = #{calendarId};
+    </select>
 </mapper>
