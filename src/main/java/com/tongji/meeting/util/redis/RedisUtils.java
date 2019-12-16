@@ -568,3 +568,7 @@ public class RedisUtils {
     }
 
 }
+/**
+ * redis-cli -h 101.132.163.128 -p 6379
+ * hget
+ */

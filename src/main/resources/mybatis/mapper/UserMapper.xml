@@ -6,17 +6,28 @@
     </sql>
 
     <sql id="BASE_COLUMN">
-        userid,openid,name
+        user_id,open_id,email,password
     </sql>
 
-    <insert id="insert" parameterType="com.tongji.meeting.model.UserDomain">
+    <resultMap id="userResultMap" type="com.tongji.meeting.model.UserDomain">
+        <id property="userid" column="user_id" />
+        <result property="openid" column="open_id"/>
+        <result property="email" column="email"/>
+        <result property="password" column="password"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.tongji.meeting.model.UserDomain" useGeneratedKeys="true" keyProperty="userid">
+        <selectKey keyProperty="userid" resultType="int">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
         INSERT INTO
         <include refid="BASE_TABLE"/>
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            openid,name
+            open_id
         </trim>
         <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
-            #{openid, jdbcType=VARCHAR},#{name, jdbcType=VARCHAR}
+            #{openid, jdbcType=VARCHAR}
         </trim>
     </insert>
 
@@ -24,7 +35,7 @@
         DELETE FROM
         <include refid="BASE_TABLE"/>
         WHERE
-        userId = #{userId, jdbcType=INTEGER}
+        userid = #{userid, jdbcType=INTEGER}
     </delete>
     <!-- 更新用户信息，为空的字段不进行置空 -->
     <update id="updateUser" parameterType="com.tongji.meeting.model.UserDomain">
@@ -47,13 +58,13 @@
         <include refid="BASE_TABLE"/>
     </select>
 
-    <select id="selectUsersByOpenid" resultType="com.tongji.meeting.model.UserDomain">
+    <select id="selectUsersByOpenid" resultMap="userResultMap">
         SELECT
         <include refid="BASE_COLUMN"/>
         FROM
         <include refid="BASE_TABLE"/>
         <where>
-            openid = #{openid, jdbcType=VARCHAR}
+            open_id = #{openid, jdbcType=VARCHAR}
         </where>
     </select>
 </mapper>

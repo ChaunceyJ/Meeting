@@ -18,14 +18,15 @@ class RedisUtilsTest {
 
     @Test
     void hmget() {
-        System.out.println(ru.hmget("3sessionKey"));
+        System.out.println(ru.hmget("0000"));
     }
 
     @Test
     void hmset() {
         Map<String,Object> info = new HashMap<>();
+        info.put("userid", 6);
         info.put("openid", "123");
         info.put("session_key", "123");
-        ru.hmset("3sessionKey", info, 10000);
+        ru.hmset("0000", info);
     }
 }
