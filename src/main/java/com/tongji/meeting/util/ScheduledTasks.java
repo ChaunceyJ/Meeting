@@ -12,22 +12,22 @@ public class ScheduledTasks {
     @Autowired
     private RedisUtils redisUtils;
 
-    @Scheduled(fixedDelay = 7000*1000)
-    public void updateWechatAccessToken() {
-        JSONObject data = WechatUtil.getAccessToken();
-        if (data.containsKey("errcode")&&data.getInteger("errcode")!=0){
-            System.out.println(data.getString("errmsg"));
-        }else {
-            String access_token = data.getString("access_token");
-            long expires_in = data.getLong("expires_in");
-            redisUtils.set("access_token", access_token, expires_in);
-        }
-    }
+//    @Scheduled(fixedDelay = 7000*1000)
+//    public void updateWechatAccessToken() {
+//        JSONObject data = WechatUtil.getAccessToken();
+//        if (data.containsKey("errcode")&&data.getInteger("errcode")!=0){
+//            System.out.println(data.getString("errmsg"));
+//        }else {
+//            String access_token = data.getString("access_token");
+//            long expires_in = data.getLong("expires_in");
+//            redisUtils.set("access_token", access_token, expires_in);
+//        }
+//    }
 
     @Scheduled(fixedDelay =  60*1000)
     public void sendRemindMessage(){
         if (!redisUtils.hasKey("access_token")){
-            updateWechatAccessToken();
+//            updateWechatAccessToken();
         }
         String access_token = (String) redisUtils.get("access_token");
         String template_id = "";//发送的提醒模版编号
