@@ -8,4 +8,8 @@ import java.util.List;
 @Mapper
 public interface EventDetailDao {
     void create(EventDetail eventDetail);
+
+    EventDetail retrieveByPK(int detailId);
+
+    void delete(EventDetail eventDetail);
 }
