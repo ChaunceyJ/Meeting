@@ -19,4 +19,6 @@ public interface UserDao {
 
     List<UserDomain> selectUsersByOpenid(@Param("openid") String openid);
 
+    List<UserDomain> getAllMembers(Integer calendarId);
+
 }

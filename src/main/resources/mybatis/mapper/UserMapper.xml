@@ -14,6 +14,7 @@
         <result property="openid" column="open_id"/>
         <result property="email" column="email"/>
         <result property="password" column="password"/>
+        <result property="name" column="name"/>
     </resultMap>
 
     <insert id="insert" parameterType="com.tongji.meeting.model.UserDomain" useGeneratedKeys="true" keyProperty="userid">
@@ -66,5 +67,11 @@
         <where>
             open_id = #{openid, jdbcType=VARCHAR}
         </where>
+    </select>
+
+    <select id="getAllMembers" resultMap="userResultMap">
+       SELECT u.user_id,u.name
+       FROM user_calendar uc LEFT JOIN user u ON uc.user_id = u.user_id
+       WHERE uc.calendar_id=#{calendarId}
     </select>
 </mapper>

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/calendar")
+@RequestMapping("api/Calendar")
 public class CalendarController {
     @Autowired
     private CalendarService calendarService;
@@ -116,11 +116,10 @@ public class CalendarController {
         return ResponseEntity.ok(calendarService.getParticipantCalendar(userId));
     }
 
-    //根据calendar_id获取所有的成员应该写在user中
-//    @GetMapping("/members")
-//    public ResponseEntity member(
-//            @RequestParam(value="calendarId",required = true )Integer calendarId
-//    ){
-//        return ResponseEntity.ok(userCalendarService.getAllMembers(calendarId));
-//    }
+    @GetMapping("/members")
+    public ResponseEntity member(
+            @RequestParam(value="calendarId",required = true )Integer calendarId
+    ){
+        return ResponseEntity.ok(userCalendarService.getAllMembers(calendarId));
+    }
 }

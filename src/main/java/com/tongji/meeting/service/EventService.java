@@ -2,10 +2,7 @@ package com.tongji.meeting.service;
 
 import com.tongji.meeting.FreeTime;
 import com.tongji.meeting.TimePeriod;
-import com.tongji.meeting.dao.EventDao;
-import com.tongji.meeting.dao.EventDetailDao;
-import com.tongji.meeting.dao.UserCalendarDao;
-import com.tongji.meeting.dao.UserDetailDao;
+import com.tongji.meeting.dao.*;
 import com.tongji.meeting.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +25,9 @@ public class EventService {
 
     @Autowired
     private UserCalendarDao userCalendarDao;
+
+    @Autowired
+    private UserDao userDao;
 
 
     //创建权限？
@@ -95,7 +95,7 @@ public class EventService {
 
     public List<TimePeriod> recommend(int calendarId, Date duration, int priority){
         //考虑勿扰
-        List<UserDomain> members = userCalendarDao.getAllMembers(calendarId);
+        List<UserDomain> members = userDao.getAllMembers(calendarId);
 //        List<EventAllInfo> publicInfo = new ArrayList<>();
 //        List<EventAllInfo> privateInfo = new ArrayList<>();
 //        for (UserDomain member : members) {

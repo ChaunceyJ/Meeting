@@ -14,6 +14,5 @@ public interface UserCalendarDao {
     void quitCalendar(@Param("userId") Integer userId,@Param("calendarId") Integer calendarId);
     void setNoDisturb(@Param("userId") Integer userId,@Param("calendarId") Integer calendarId,@Param("disturb") Boolean disturb);
     void setDetailExposed(@Param("userId") Integer userId,@Param("calendarId") Integer calendarId,@Param("detailExposed") Boolean detailExposed);
-    List<UserDomain> getAllMembers(Integer calendarId);
     Boolean retrieveIsExposeDetailByPK(int userId, int calendarId);
 }

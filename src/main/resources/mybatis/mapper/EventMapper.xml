@@ -24,23 +24,23 @@
         select * from event where calendar_id = #{calendarId};
     </select>
 
-    <select id="queryByCondition" resultMap="BaseResultMap"
-            parameterType="Event" >
-        select
-        *
-        from event
-        where 1 = 1
-        <if test="condition.eventId != null">
-            and trading_account_id = #{condition.tradingAccountId,jdbcType=INTEGER}
-        </if>
-        <if test="condition.customerId != null">
-            and customer_id = #{condition.customerId,jdbcType=INTEGER}
-        </if>
-        <if test="condition.securityId != null">
-            and security_id = #{condition.securityId,jdbcType=INTEGER}
-        </if>
-        <if test="condition.stockFinancingId != null">
-            and stock_financing_id = #{condition.stockFinancingId,jdbcType=VARCHAR}
-        </if>
-    </select>
+<!--    <select id="queryByCondition" resultMap="BaseResultMap"-->
+<!--            parameterType="Event" >-->
+<!--        select-->
+<!--        *-->
+<!--        from event-->
+<!--        where 1 = 1-->
+<!--        <if test="condition.eventId != null">-->
+<!--            and trading_account_id = #{condition.tradingAccountId,jdbcType=INTEGER}-->
+<!--        </if>-->
+<!--        <if test="condition.customerId != null">-->
+<!--            and customer_id = #{condition.customerId,jdbcType=INTEGER}-->
+<!--        </if>-->
+<!--        <if test="condition.securityId != null">-->
+<!--            and security_id = #{condition.securityId,jdbcType=INTEGER}-->
+<!--        </if>-->
+<!--        <if test="condition.stockFinancingId != null">-->
+<!--            and stock_financing_id = #{condition.stockFinancingId,jdbcType=VARCHAR}-->
+<!--        </if>-->
+<!--    </select>-->
 </mapper>
