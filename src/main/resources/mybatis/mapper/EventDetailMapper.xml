@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tongji.meeting.dao.EventDetailDao" >
+
+    <resultMap id="EventDetail" type="EventDetail">
+        <id property="detailId" column="detail_id" />
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+<!--一对一-->
+<!--  <association property="role" columnPrefix="role_" resultMap="mapper.SysRoleMapper.roleMapper"/>-->
+<!--  一对多
+<collection property="privilegeList" columnPrefix="pri_" resultMap="mapper.SysUserMapper.privilegeMap"/>-->
+    </resultMap>
+
+    <insert id="create" parameterType="EventDetail" useGeneratedKeys="true"
+            keyProperty="detailId">
+        INSERT INTO event_detail(title, content, start_time, end_time)
+        VALUES (#{title},#{content},#{startTime},#{endTime})
+    </insert>
+
+
+<!--    <update id="updateUser" parameterType="com.winterchen.model.UserDomain">-->
+<!--        UPDATE-->
+<!--        <include refid="BASE_TABLE"/>-->
+<!--        <set>-->
+<!--            <if test="userName != null">-->
+<!--                userName = #{userName, jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="password != null">-->
+<!--                password = #{password, jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--            <if test="phone != null">-->
+<!--                phone = #{phone, jdbcType=VARCHAR},-->
+<!--            </if>-->
+<!--        </set>-->
+<!--        <where>-->
+<!--            userId = #{userId, jdbcType=INTEGER}-->
+<!--        </where>-->
+<!--    </update>-->
+</mapper>

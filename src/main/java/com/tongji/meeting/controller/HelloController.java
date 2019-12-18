@@ -29,4 +29,13 @@ public class HelloController {
         return new ResponseEntity("Unauthorized", HttpStatus.UNAUTHORIZED);
     }
 
+
+    //    @RequestMapping(value = "/test" , method = RequestMethod.GET ,produces = "application/json")
+//    public ResponseEntity test(
+//            @RequestParam(value = "title")
+//                    String title
+//
+//    ){
+//        return ResponseEntity.ok(title);
+//    }
 }

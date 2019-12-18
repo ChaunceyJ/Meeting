@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongji.meeting.dao.EventDao" >
+
+    <resultMap id="Event" type="Event">
+        <id property="eventId" column="event_id" />
+        <result property="detailId" column="detail_id"/>
+        <result property="calendarId" column="calendar_id"/>
+        <result property="priority" column="priority"/>
+        <result property="isOverriden" column="is_overriden"/>
+    </resultMap>
+
+    <insert id="create" parameterType="Event" useGeneratedKeys="true"
+            keyProperty="eventId">
+        INSERT INTO event(detail_id, calendar_id, priority, is_overriden)
+        VALUES (#{detailId},#{calendarId},#{priority},#{isOverriden})
+    </insert>
+
+    <delete id="delete" parameterType="Event">
+        delete from event where event_id = #{eventId};
+    </delete>
+
+    <select id="retrieveByCalendar" parameterType="Calendar" resultMap="Event">
+        select * from event where calendar_id = #{calendarId};
+    </select>
+
+    <select id="queryByCondition" resultMap="BaseResultMap"
+            parameterType="Event" >
+        select
+        *
+        from event
+        where 1 = 1
+        <if test="condition.eventId != null">
+            and trading_account_id = #{condition.tradingAccountId,jdbcType=INTEGER}
+        </if>
+        <if test="condition.customerId != null">
+            and customer_id = #{condition.customerId,jdbcType=INTEGER}
+        </if>
+        <if test="condition.securityId != null">
+            and security_id = #{condition.securityId,jdbcType=INTEGER}
+        </if>
+        <if test="condition.stockFinancingId != null">
+            and stock_financing_id = #{condition.stockFinancingId,jdbcType=VARCHAR}
+        </if>
+    </select>
+</mapper>
