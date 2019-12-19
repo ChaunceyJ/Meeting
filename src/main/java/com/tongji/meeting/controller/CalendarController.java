@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/Calendar")
+@RequestMapping("/api/Calendar")
 public class CalendarController {
     @Autowired
     private CalendarService calendarService;
@@ -106,6 +106,14 @@ public class CalendarController {
     ){
         int userId = (int)redisUtils.hget(sKey, "userid");
         return ResponseEntity.ok(calendarService.getCreatedCalendar(userId));
+    }
+
+    @GetMapping("/myCalendar")
+    public ResponseEntity selectMine(
+            @RequestHeader(value = "Authorization",required = true)String sKey
+    ){
+        int userId = (int)redisUtils.hget(sKey, "userid");
+        return ResponseEntity.ok(calendarService.getMyCalendar(userId));
     }
 
     @GetMapping("/myParticipated")
