@@ -21,6 +21,9 @@
         VALUES (#{title},#{content},#{startTime},#{endTime})
     </insert>
 
+    <select id="retrieveByPK" resultMap="EventDetail">
+        select * from event_detail where detail_id = #{calendarId};
+    </select>
 
 <!--    <update id="updateUser" parameterType="com.winterchen.model.UserDomain">-->
 <!--        UPDATE-->

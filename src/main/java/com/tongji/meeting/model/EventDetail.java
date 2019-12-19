@@ -1,13 +1,14 @@
 package com.tongji.meeting.model;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class EventDetail {
     private int detailId;
     private String title;
     private String content;
-    private Timestamp startTime;
-    private Timestamp endTime;
+    private Date startTime;
+    private Date endTime;
     private boolean isRepeat;
     //private EventRepetition eventRepetition???
 
@@ -35,7 +36,7 @@ public class EventDetail {
         this.content = content;
     }
 
-    public Timestamp getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
@@ -43,7 +44,7 @@ public class EventDetail {
         this.startTime = startTime;
     }
 
-    public Timestamp getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 

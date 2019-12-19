@@ -1,6 +1,6 @@
 package com.tongji.meeting.model;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class EventAllInfo {
     private Event event;
@@ -35,13 +35,13 @@ public class EventAllInfo {
 
 
 
-    public Timestamp getStartTime() {
+    public Date getStartTime() {
         return eventDetail.getStartTime();
     }
 
 
 
-    public Timestamp getEndTime() {
+    public Date getEndTime() {
         return eventDetail.getEndTime();
     }
 

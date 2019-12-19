@@ -5,9 +5,11 @@ public class Event {
     private int detailId;
     private int calendarId;
     private int priority;
-
+    private int isOverriden;
+    private int isRemind;
     //private EventDetail eventDetail;
     //get rid of detailId??
+
 
     public int getEventId() {
         return eventId;
@@ -41,4 +43,19 @@ public class Event {
         this.priority = priority;
     }
 
+    public int getIsOverriden() {
+        return isOverriden;
+    }
+
+    public void setIsOverriden(int isOverriden) {
+        this.isOverriden = isOverriden;
+    }
+
+    public int getIsRemind() {
+        return isRemind;
+    }
+
+    public void setIsRemind(int isRemind) {
+        this.isRemind = isRemind;
+    }
 }

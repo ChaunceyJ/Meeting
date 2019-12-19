@@ -74,10 +74,4 @@ public class UserController {
         return ResponseEntity.ok("添加成功");
     }
 
-    @RequestMapping(value = "/api/user" , method = RequestMethod.GET ,produces = "application/json")
-    public ResponseEntity getUsers(){
-        return ResponseEntity.ok(userService.selectUsers());
-    }
-
-
 }

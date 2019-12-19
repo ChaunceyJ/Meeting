@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 @Api("事件模块")
+@RequestMapping("/api/Event")
 @RestController
 public class EventController {
     @Autowired
@@ -36,29 +37,45 @@ public class EventController {
                     String content,
             @RequestParam(value = "priority")
                     int priority,
-            @RequestParam(value = "startTime")
+            @RequestParam(value = "start_time")
                     Timestamp startTime,
-            @RequestParam(value = "endTime")
+            @RequestParam(value = "end_time")
                     Timestamp endTime,
-            @RequestParam(value = "calendarId")
+            @RequestParam(value = "calendar_id")
                     int calendarId,
+            @RequestParam(value = "remind_time")
+                    Date remindTime,
+            @RequestParam(value = "repeat_unit")//"0"代表不重复，接受“day","week","month",,,,
+                    String repeatUnit,
+            @RequestParam(value = "repeat_amount")//每几天，每几周的”几“
+                    int repeatAmount,
             @RequestHeader(value = "Authorization")
                     String sKey
     ){
         int userId = (int)redisUtils.hget(sKey, "userid");
+
         EventDetail eventDetail = new EventDetail();
         eventDetail.setStartTime(startTime);
         eventDetail.setTitle(title);
         eventDetail.setEndTime(endTime);
         eventDetail.setContent(content);
+
         Event event = new Event();
         event.setCalendarId(calendarId);
         event.setPriority(priority);
+
         UserDetail userDetail = new UserDetail();
         userDetail.setUserId(userId);
 
-        eventService.addNewEvent(eventDetail, event, userDetail);
-        return ResponseEntity.ok("ok");
+        EventReminder eventReminder = new EventReminder();
+        eventReminder.setRemindTime(remindTime);
+
+        EventRepetition eventRepetition =new EventRepetition();
+        eventRepetition.setRepeatAmount(1);
+        eventRepetition.setRepeatUnit("week");
+
+        eventService.addNewEvent(eventDetail, event, userDetail, eventReminder, eventRepetition);
+        return ResponseEntity.ok("success");
     }
 
 
@@ -127,14 +144,13 @@ public class EventController {
     }
 
 
-    @ApiOperation(value = "显示某日历事件", notes="会得到用户对各个事件的权限说明")
-    @RequestMapping(value = "/show1CalendarEvents" , method = RequestMethod.GET ,produces = "application/json")
+    @ApiOperation(value = "显示我个人日历事件", notes="我唯一的一个个人日历")
+    @RequestMapping(value = "/showMyCalendar" , method = RequestMethod.GET ,produces = "application/json")
     public ResponseEntity show1CalendarEvents(
-//            @RequestHeader(value = "Authorization",required = true)String sKey,
-            @RequestParam(value = "calendarId") int calendarId
+            @RequestHeader(value = "Authorization")String sKey
     ){
-//        int userId = (int)redisUtils.hget(sKey, "userid");
-        return ResponseEntity.ok(eventService.getEventByCalendar(calendarId));
+        int userId = (int)redisUtils.hget(sKey, "userid");
+        return ResponseEntity.ok(eventService.showMyCalendar(userId));
     }
 
     @ApiOperation(value = "发送共享事件邀请", notes="")
