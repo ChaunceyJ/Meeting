@@ -13,4 +13,5 @@ public interface CalendarDao {
     void disbandCalendar(Integer calendarId);
     List<Calendar> getCreatedCalendar(Integer userId);
     List<Calendar> getParticipantCalendar(Integer userId);
+    Calendar getMyCalendar(Integer userId);
 }

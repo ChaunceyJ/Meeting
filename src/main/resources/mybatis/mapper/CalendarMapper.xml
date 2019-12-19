@@ -26,4 +26,10 @@
         FROM user_calendar uc LEFT JOIN calendar c ON uc.calendar_id=c.calendar_id
         WHERE uc.user_id=#{userId} AND uc.permission="participant"
     </select>
+
+    <select id="getMyCalendar" resultMap="calendarMap">
+        SELECT c.*
+        FROM user_calendar uc LEFT JOIN calendar c ON uc.calendar_id=c.calendar_id
+        WHERE uc.user_id=#{userId} AND uc.permission="mine"
+    </select>
 </mapper>
