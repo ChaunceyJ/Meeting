@@ -2,6 +2,7 @@ package com.tongji.meeting.service;
 
 import com.tongji.meeting.dao.CalendarDao;
 import com.tongji.meeting.dao.UserCalendarDao;
+import com.tongji.meeting.dao.UserDao;
 import com.tongji.meeting.model.Calendar;
 import com.tongji.meeting.model.UserCalendar;
 import com.tongji.meeting.model.UserDomain;
@@ -16,6 +17,9 @@ public class UserCalendarService {
     @Autowired
     private UserCalendarDao userCalendarDao;
 
+    @Autowired
+    private UserDao userDao;
+
     public void createUCRelation(UserCalendar userCalendar){
         userCalendarDao.createUCRelation(userCalendar);
     }
@@ -28,7 +32,7 @@ public class UserCalendarService {
 
     public void setDetailExposed(Integer userId,Integer calendarId,Boolean disturb){userCalendarDao.setDetailExposed(userId,calendarId,disturb);}
 
-//    public List<UserDomain> getAllMembers(Integer calendarId){
-//        return userCalendarDao.getAllMembers(calendarId);
-//    }
+    public List<UserDomain> getAllMembers(Integer calendarId){
+        return userDao.getAllMembers(calendarId);
+    }
 }

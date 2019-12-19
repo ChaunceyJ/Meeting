@@ -22,12 +22,12 @@ public class TimePeriod implements Comparable<TimePeriod>{
                 this.startTime.getTime() - timePeriod.startTime.getTime()));
     }
 
-    @Override
-    public String toString() {
-        return "MyNumber{" +
-                "key='" + key + '\'' +
-                ", value=" + value +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "MyNumber{" +
+//                "key='" + key + '\'' +
+//                ", value=" + value +
+//                '}';
+//    }
 
 }
