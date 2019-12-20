@@ -3,7 +3,9 @@ package com.tongji.meeting.controller;
 import com.tongji.meeting.model.Calendar;
 import com.tongji.meeting.model.UserCalendar;
 import com.tongji.meeting.service.CalendarService;
+import com.tongji.meeting.service.NoticeService;
 import com.tongji.meeting.service.UserCalendarService;
+import com.tongji.meeting.service.UserService;
 import com.tongji.meeting.util.redis.RedisUtils;
 import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,12 @@ public class CalendarController {
 
     @Autowired
     private RedisUtils redisUtils;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private NoticeService noticeService;
 
     @PostMapping("/newCalendar")
     public ResponseEntity newCalendar(
@@ -64,9 +72,12 @@ public class CalendarController {
 
     @DeleteMapping("/disbandCalendar")
     public ResponseEntity disbandCalendar(
+            @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value = "calendarId",required = true)Integer calendarId
     ){
+        String openid = (String) redisUtils.hget(sKey, "openid");
         calendarService.disbandCalendar(calendarId);
+        noticeService.sendMsgOfUngroup(calendarId, userService.selectUserByOpenid(openid).getName());
         return ResponseEntity.ok("disband calendar successfully");
     }
 

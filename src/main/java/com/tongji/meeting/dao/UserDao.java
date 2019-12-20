@@ -21,4 +21,7 @@ public interface UserDao {
 
     List<UserDomain> getAllMembers(Integer calendarId);
 
+    List<UserDomain> getAllMembersOpenid(Integer calendarId);
+
+
 }

@@ -24,10 +24,11 @@
         INSERT INTO
         <include refid="BASE_TABLE"/>
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            open_id
+            open_id, name
         </trim>
         <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
-            #{openid, jdbcType=VARCHAR}
+            #{openid, jdbcType=VARCHAR},
+            #{name, jdbcType=VARCHAR}
         </trim>
     </insert>
 
@@ -66,5 +67,17 @@
         <where>
             open_id = #{openid, jdbcType=VARCHAR}
         </where>
+    </select>
+
+    <select id="getAllMembers" resultMap="userResultMap">
+        SELECT u.user_id,u.name
+        FROM user_calendar uc LEFT JOIN user u ON uc.user_id = u.user_id
+        WHERE uc.calendar_id=#{calendarId}
+    </select>
+
+    <select id="getAllMembersOpenid" resultMap="userResultMap">
+        SELECT u.open_id
+        FROM user_calendar uc LEFT JOIN user u ON uc.user_id = u.user_id
+        WHERE uc.calendar_id=#{calendarId}
     </select>
 </mapper>

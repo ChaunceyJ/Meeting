@@ -33,4 +33,10 @@
         WHERE uc.user_id=#{userId} AND uc.permission='mine'
     </select>
 
+    <select id="getCalendarById" resultMap="calendarMap">
+        SELECT *
+        FROM calendar
+        WHERE calendar_id=#{calendarId}
+    </select>
+
 </mapper>
