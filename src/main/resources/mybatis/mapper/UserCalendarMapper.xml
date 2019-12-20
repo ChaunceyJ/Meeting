@@ -30,4 +30,9 @@
         WHERE user_id=#{userId} AND calendar_id=#{calendarId}
     </update>
 
+    <select id="getMemberNum" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM user_calendar
+        WHERE calendar_id=#{calendarId}
+    </select>
 </mapper>

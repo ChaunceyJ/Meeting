@@ -1,6 +1,8 @@
 package com.tongji.meeting.service;
 
 import com.tongji.meeting.dao.UserDao;
+import com.tongji.meeting.model.Calendar;
+import com.tongji.meeting.model.UserCalendar;
 import com.tongji.meeting.model.UserDomain;
 import com.tongji.meeting.util.GlobalValues;
 import com.tongji.meeting.util.redis.RedisUtils;
@@ -17,10 +19,26 @@ public class UserService {
     private UserDao userDao;
     @Autowired
     private RedisUtils redisUtils;
+    @Autowired
+    private UserCalendarService userCalendarService;
+    @Autowired
+    private CalendarService calendarService;
 
     public int insertNewUser(UserDomain record) {
         int re = userDao.insert(record);
         updateSessionKey(record);
+        int newCalendarId;
+        Calendar calendar=new Calendar();
+        UserCalendar userCalendar=new UserCalendar();
+        calendar.setCalendarName("我的日历");
+        userCalendar.setUserId(record.getUserid());
+        userCalendar.setDisturb(false);
+        userCalendar.setRole("mine");
+        userCalendar.setDetailExposed(false);
+        calendarService.createCalendar(calendar);
+        newCalendarId=calendar.getCalendarId();
+        userCalendar.setCalendarId(newCalendarId);
+        userCalendarService.createUCRelation(userCalendar);
         return re;
     }
 

@@ -3,9 +3,9 @@ package com.tongji.meeting.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 /**
  *所有请求通过我们自己的Filter
@@ -30,12 +30,13 @@ public class HelloController {
     }
 
 
-    //    @RequestMapping(value = "/test" , method = RequestMethod.GET ,produces = "application/json")
-//    public ResponseEntity test(
-//            @RequestParam(value = "title")
-//                    String title
-//
-//    ){
-//        return ResponseEntity.ok(title);
-//    }
+    @RequestMapping(value = "/test" , method = RequestMethod.GET ,produces = "application/json")
+    public ResponseEntity test(
+            @RequestParam(value = "date")
+                    Date title
+
+    ){
+        System.out.println(title);
+        return ResponseEntity.ok(title);
+    }
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tongji.meeting.dao.EventRepetitionDao" >
+<!--    <resultMap id="eventReminder" type="EventReminder">-->
+<!--        <id property="eventId" column="event_id"/>-->
+<!--        <result property="remindTime" column="remind_time"/>-->
+<!--    </resultMap>-->
+
+    <insert id="create" parameterType="EventRepetition">
+        INSERT INTO event_repetition(detail_id, repeat_unit, repeat_amount)
+        VALUES (#{detailId},#{repeatUnit},#{repeatAmount})
+    </insert>
+
+
+</mapper>

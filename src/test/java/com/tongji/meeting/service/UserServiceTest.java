@@ -25,7 +25,7 @@ class UserServiceTest {
 
     @Test
     void selectUserByOpenid() {
-        UserDomain user2 = userService.selectUserByOpenid("12");
+        UserDomain user2 = userService.selectUserByOpenid("1762");
         System.out.println(user2.getUserid());
     }
 

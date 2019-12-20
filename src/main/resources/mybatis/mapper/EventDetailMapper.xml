@@ -9,6 +9,7 @@
         <result property="content" column="content"/>
         <result property="startTime" column="start_time"/>
         <result property="endTime" column="end_time"/>
+        <result property="isRepeat" column="is_repeat"/>
 <!--一对一-->
 <!--  <association property="role" columnPrefix="role_" resultMap="mapper.SysRoleMapper.roleMapper"/>-->
 <!--  一对多

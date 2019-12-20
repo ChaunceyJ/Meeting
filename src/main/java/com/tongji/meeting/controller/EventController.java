@@ -38,17 +38,21 @@ public class EventController {
             @RequestParam(value = "priority")
                     int priority,
             @RequestParam(value = "start_time")
-                    Timestamp startTime,
+                    Date startTime,
             @RequestParam(value = "end_time")
-                    Timestamp endTime,
+                    Date endTime,
             @RequestParam(value = "calendar_id")
                     int calendarId,
-            @RequestParam(value = "remind_time")
+            @RequestParam(value = "is_remind")
+                    int isRemind,
+            @RequestParam(value = "remind_time", required = false)
                     Date remindTime,
-            @RequestParam(value = "repeat_unit")//"0"代表不重复，接受“day","week","month",,,,
+            @RequestParam(value = "is_repeat")
+                    int isRepeat,
+            @RequestParam(value = "repeat_unit",required = false)//"0"代表不重复，接受“day","week","month",,,,
                     String repeatUnit,
-            @RequestParam(value = "repeat_amount")//每几天，每几周的”几“
-                    int repeatAmount,
+            @RequestParam(value = "repeat_amount",required = false)//每几天，每几周的”几“
+                    Integer repeatAmount,
             @RequestHeader(value = "Authorization")
                     String sKey
     ){
@@ -59,20 +63,26 @@ public class EventController {
         eventDetail.setTitle(title);
         eventDetail.setEndTime(endTime);
         eventDetail.setContent(content);
+        eventDetail.setRepeat(isRepeat);
 
         Event event = new Event();
         event.setCalendarId(calendarId);
         event.setPriority(priority);
+        event.setIsRemind(isRemind);
 
         UserDetail userDetail = new UserDetail();
         userDetail.setUserId(userId);
 
         EventReminder eventReminder = new EventReminder();
-        eventReminder.setRemindTime(remindTime);
-
         EventRepetition eventRepetition =new EventRepetition();
-        eventRepetition.setRepeatAmount(1);
-        eventRepetition.setRepeatUnit("week");
+
+        if (isRemind == 1) {
+            eventReminder.setRemindTime(remindTime);
+        }
+        if (isRepeat == 1) {
+            eventRepetition.setRepeatAmount(1);
+            eventRepetition.setRepeatUnit("week");
+        }
 
         eventService.addNewEvent(eventDetail, event, userDetail, eventReminder, eventRepetition);
         return ResponseEntity.ok("success");
@@ -103,8 +113,8 @@ public class EventController {
             @RequestParam(value = "title", required = false) String title,
             @RequestParam(value = "content", required = false) String content,
             @RequestParam(value = "priority", required = false) int priority,
-            @RequestParam(value = "startTime", required = false) Timestamp startTime,
-            @RequestParam(value = "endTime", required = false) Timestamp endTime,
+            @RequestParam(value = "startTime", required = false) Date startTime,
+            @RequestParam(value = "endTime", required = false) Date endTime,
             @RequestParam(value = "calendarId", required = false) int calendarId,
             @RequestParam(value = "userId") int userId
     ){
@@ -169,13 +179,13 @@ public class EventController {
         return ResponseEntity.ok("Success!");
     }
 
-    @ApiOperation(value = "推荐时间", notes="")
-    @RequestMapping(value = "/recommend" , method = RequestMethod.GET ,produces = "application/json")
-    public ResponseEntity recommend(
-            @RequestParam(value = "calendarId") int calendarId,
-            @RequestParam(value = "duration") Date duration,
-            @RequestParam(value = "priority") int priority
-            ){
-        return ResponseEntity.ok(eventService.recommend(calendarId,duration,priority));
-    }
+//    @ApiOperation(value = "推荐时间", notes="")
+//    @RequestMapping(value = "/recommend" , method = RequestMethod.GET ,produces = "application/json")
+//    public ResponseEntity recommend(
+//            @RequestParam(value = "calendarId") int calendarId,
+//            @RequestParam(value = "duration") Date duration,
+//            @RequestParam(value = "priority") int priority
+//            ){
+//        return ResponseEntity.ok(eventService.recommend(calendarId,duration,priority));
+//    }
 }

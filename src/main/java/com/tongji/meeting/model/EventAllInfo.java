@@ -46,7 +46,7 @@ public class EventAllInfo {
     }
 
 
-    public boolean isRepeat() {
+    public int isRepeat() {
         return eventDetail.isRepeat();
     }
 

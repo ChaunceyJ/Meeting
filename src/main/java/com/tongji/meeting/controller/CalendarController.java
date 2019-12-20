@@ -31,6 +31,7 @@ public class CalendarController {
     ){
         System.out.println(sKey);
         int userId = (int)redisUtils.hget(sKey, "userid");
+        int newCalendarId;
         Calendar calendar=new Calendar();
         UserCalendar userCalendar=new UserCalendar();
         calendar.setCalendarName(calendarName);
@@ -39,9 +40,10 @@ public class CalendarController {
         userCalendar.setRole("owner");
         userCalendar.setDetailExposed(false);
         calendarService.createCalendar(calendar);
-        userCalendar.setCalendarId(calendar.getCalendarId());
+        newCalendarId=calendar.getCalendarId();
+        userCalendar.setCalendarId(newCalendarId);
         userCalendarService.createUCRelation(userCalendar);
-        return ResponseEntity.ok("create calendar successfully");
+        return ResponseEntity.ok(newCalendarId);
 }
 
     @PostMapping("/participateCalendar")

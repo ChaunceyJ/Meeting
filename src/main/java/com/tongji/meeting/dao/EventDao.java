@@ -13,6 +13,6 @@ public interface EventDao {
     void create(Event event);
     void delete(Event event);
     List<Event> retrieveByCalendar(int calendarId);
-
+    int getEventNum(Integer calendarId);
     Event retrieveByPK(int detailId);
 }
