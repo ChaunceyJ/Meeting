@@ -24,7 +24,7 @@ public class CalendarController {
     @Autowired
     private RedisUtils redisUtils;
 
-    @PostMapping("/newCalendar")
+    @GetMapping("/newCalendar")
     public ResponseEntity newCalendar(
             @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value = "calendarName",required = true)String calendarName
@@ -46,7 +46,7 @@ public class CalendarController {
         return ResponseEntity.ok(newCalendarId);
 }
 
-    @PostMapping("/participateCalendar")
+    @GetMapping("/participateCalendar")
     public ResponseEntity participateCalendar(
             @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value = "calendarId",required = true)Integer calendarId
@@ -62,15 +62,15 @@ public class CalendarController {
         return ResponseEntity.ok("participant calendar successfully");
     }
 
-    @DeleteMapping("/disbandCalendar")
+    @GetMapping("/disbandCalendar")
     public ResponseEntity disbandCalendar(
-            @RequestParam(value = "calendarId",required = true)Integer calendarId
+            @RequestParam(value = "calendarId",required = true)int calendarId
     ){
         calendarService.disbandCalendar(calendarId);
         return ResponseEntity.ok("disband calendar successfully");
     }
 
-    @DeleteMapping("/quitCalendar")
+    @GetMapping("/quitCalendar")
     public ResponseEntity quitCalendar(
             @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value = "calendarId",required = true)Integer calendarId
@@ -80,7 +80,7 @@ public class CalendarController {
         return ResponseEntity.ok("quit calendar successfully");
     }
 
-    @PutMapping("/setNoDisturb")
+    @GetMapping("/setNoDisturb")
     public ResponseEntity setDisturb(
             @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value="calendarId",required = true )Integer calendarId,
@@ -91,7 +91,7 @@ public class CalendarController {
         return ResponseEntity.ok("set the disturb mode successfully");
     }
 
-    @PutMapping("/setDetailExposed")
+    @GetMapping("/setDetailExposed")
     public ResponseEntity setDetailExposed(
             @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value="calendarId",required = true )Integer calendarId,

@@ -8,6 +8,10 @@
         <result property="permission" column="permission"/>
     </resultMap>
 
+    <select id="retrieveByPK" resultMap="UserDetail">
+        select * from user_detail where user_id = #{userId} and detail_id = #{detailId};
+    </select>
+
     <insert id="create" parameterType="UserDetail">
         INSERT INTO user_detail(user_id, detail_id, permission)
         VALUES (#{userId},#{detailId},#{permission})

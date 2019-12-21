@@ -26,22 +26,28 @@
         select * from event_detail where detail_id = #{calendarId};
     </select>
 
-<!--    <update id="updateUser" parameterType="com.winterchen.model.UserDomain">-->
-<!--        UPDATE-->
-<!--        <include refid="BASE_TABLE"/>-->
-<!--        <set>-->
-<!--            <if test="userName != null">-->
-<!--                userName = #{userName, jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="password != null">-->
-<!--                password = #{password, jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--            <if test="phone != null">-->
-<!--                phone = #{phone, jdbcType=VARCHAR},-->
-<!--            </if>-->
-<!--        </set>-->
-<!--        <where>-->
-<!--            userId = #{userId, jdbcType=INTEGER}-->
-<!--        </where>-->
-<!--    </update>-->
+    <update id="update" parameterType="EventDetail">
+        update event_detail
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+        </set>
+        where detail_id = #{detailId}
+    </update>
+
+
+    <delete id="delete" parameterType="EventDetail">
+        DELETE from event_detail where detail_id = #{detailId}
+    </delete>
+
 </mapper>

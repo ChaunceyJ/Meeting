@@ -12,4 +12,6 @@ public interface EventDetailDao {
     EventDetail retrieveByPK(int detailId);
 
     void delete(EventDetail eventDetail);
+
+    void update(EventDetail eventDetail);
 }

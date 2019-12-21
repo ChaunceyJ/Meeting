@@ -9,5 +9,5 @@ public interface UserDetailDao {
 
     void delete(UserDetail userDetail);
 
-    UserDetail retrieveByPK(int userid, int detailId);
+    UserDetail retrieveByPK(int userId, int detailId);
 }

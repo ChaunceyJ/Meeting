@@ -30,6 +30,17 @@
         WHERE calendar_id=#{calendarId}
     </select>
 
+    <select id="retrieveByPK" resultMap="Event">
+        SELECT *
+        FROM event
+        WHERE event_id = #{eventId}
+    </select>
+
+    <update id="update" parameterType="Event">
+        update event set priority = #{priority}
+        where event_id = #{eventId}
+    </update>
+
 <!--    <select id="queryByCondition" resultMap="BaseResultMap"-->
 <!--            parameterType="Event" >-->
 <!--        select-->

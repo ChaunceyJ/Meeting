@@ -14,5 +14,7 @@ public interface EventDao {
     void delete(Event event);
     List<Event> retrieveByCalendar(int calendarId);
     int getEventNum(Integer calendarId);
-    Event retrieveByPK(int detailId);
+    Event retrieveByPK(int eventId);
+
+    void update(Event newEvent);
 }

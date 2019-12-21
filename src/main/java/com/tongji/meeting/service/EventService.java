@@ -66,17 +66,23 @@ public class EventService {
     }
 
     public String checkPermission(UserDetail userDetail) {
-        //update
-        return "2";
+        userDetail = userDetailDao.retrieveByPK(userDetail.getUserId(),userDetail.getDetailId());
+
+        return userDetail.getPermission();
     }
 
-    public String modifyEvent(EventDetail eventDetail, Event event, UserDetail userDetail) {
-        //update
-        checkPermission(userDetail);
-        //event.setCalendarId(calendarId);
+    public void modifyEvent(EventDetail eventDetail, Event newEvent,
+                              Event oldEvent, UserDetail userDetail) {
+        oldEvent = eventDao.retrieveByPK(oldEvent.getEventId());
+//        System.out.println(oldEvent.getDetailId());
+        userDetail.setDetailId(oldEvent.getDetailId());
+//        System.out.println(checkPermission(userDetail));
+        if (checkPermission(userDetail).equals("owner")) {
+            eventDao.update(newEvent);
+            eventDetailDao.update(eventDetail);
+        }
         //如果涉及工作组的改变？？？
         // 删除userdetail里组员和该事件关联、新增新关联、
-        return "1";
     }
 
     public void deleteEvent(Event event, UserDomain userDomain) {
@@ -89,8 +95,9 @@ public class EventService {
 
         if (userDetail.getPermission().equals("owner")) {
             //对于工作组，组长和创建者都是owner，或者只有组长
+            System.out.println("owner delete");
+            System.out.println(eventDetail.getDetailId());
             eventDetailDao.delete(eventDetail);
-            //顺便级联event, user_detail
         } else { //只是接受分享的人???或者其他组员？
             //成员？
             eventDao.delete(event);

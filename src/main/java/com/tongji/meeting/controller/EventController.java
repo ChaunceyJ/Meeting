@@ -108,31 +108,35 @@ public class EventController {
     @ApiOperation(value = "修改事件", notes="修改事件时间、标题、内容、优先级、移动日历，可能只有部分")
     @RequestMapping(value = "/modifyEvent" , method = RequestMethod.GET ,produces = "application/json")
     public ResponseEntity modifyEvent(
-            @RequestParam(value = "detailId") int detailId,
-            @RequestParam(value = "eventId") int eventId,
+//            @RequestParam(value = "detailId") int detailId,
+            @RequestParam(value = "event_id") int eventId,
             @RequestParam(value = "title", required = false) String title,
             @RequestParam(value = "content", required = false) String content,
-            @RequestParam(value = "priority", required = false) int priority,
-            @RequestParam(value = "startTime", required = false) Date startTime,
-            @RequestParam(value = "endTime", required = false) Date endTime,
-            @RequestParam(value = "calendarId", required = false) int calendarId,
-            @RequestParam(value = "userId") int userId
+            @RequestParam(value = "priority", required = false) Integer priority,
+            @RequestParam(value = "start_time", required = false) Date startTime,
+            @RequestParam(value = "end_time", required = false) Date endTime,
+//            @RequestParam(value = "calendarId", required = false) int calendarId,
+            @RequestHeader(value = "Authorization")
+                    String sKey
     ){
+        int userId = (int)redisUtils.hget(sKey, "userid");
+        Event newEvent = new Event();
+        newEvent.setEventId(eventId);
+        newEvent.setPriority(priority);
+
+        Event oldEvent = new Event();
+        oldEvent.setEventId(eventId);
+
         EventDetail eventDetail = new EventDetail();
-        eventDetail.setDetailId(detailId);
-        eventDetail.setStartTime(startTime);
-        eventDetail.setTitle(title);
-        eventDetail.setEndTime(endTime);
         eventDetail.setContent(content);
-        Event event = new Event();
-        event.setDetailId(detailId);
-        event.setEventId(eventId);
-        event.setPriority(priority);
-        event.setCalendarId(calendarId);
+        eventDetail.setTitle(title);
+        eventDetail.setStartTime(startTime);
+        eventDetail.setEndTime(endTime);
+
         UserDetail userDetail = new UserDetail();
         userDetail.setUserId(userId);
-        userDetail.setDetailId(detailId);
-        eventService.modifyEvent(eventDetail, event, userDetail);
+
+        eventService.modifyEvent(eventDetail, newEvent, oldEvent, userDetail);
         return ResponseEntity.ok("success");
     }
 
@@ -140,7 +144,7 @@ public class EventController {
     @RequestMapping(value = "/deleteEvent" , method = RequestMethod.GET ,produces = "application/json")
     public ResponseEntity deleteEvent(
             @RequestHeader(value = "Authorization",required = true)String sKey,
-            @RequestParam(value = "eventId") int eventId
+            @RequestParam(value = "event_id") int eventId
     ){
         int userId = (int)redisUtils.hget(sKey, "userid");
         UserDomain userDomain = new UserDomain();
