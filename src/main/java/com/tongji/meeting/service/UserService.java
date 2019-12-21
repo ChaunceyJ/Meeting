@@ -50,10 +50,6 @@ public class UserService {
         redisUtils.hmset(record.getMy_session_key(), info, GlobalValues.mySessionTime);
     }
 
-    public int insert(UserDomain record) {
-        return userDao.insert(record);
-    }
-
     public UserDomain selectUserByOpenid(String openid) {
         List<UserDomain> records = userDao.selectUsersByOpenid(openid);
         if (records.size() == 0){

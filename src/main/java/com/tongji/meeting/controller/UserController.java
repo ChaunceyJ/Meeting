@@ -26,7 +26,9 @@ public class UserController {
 
     @ApiOperation(value = "用户登录", notes="用户首次使用则存入用户表中；每次调用都会更新uuid")
     @RequestMapping(value = "/login" , method = RequestMethod.GET ,produces = "application/json")
-    public ResponseEntity loginByWechat(@RequestParam(value = "code", required = true) String code){
+    public ResponseEntity loginByWechat(
+            @RequestParam(value = "code", required = true) String code,
+            @RequestParam(value = "name", required = true) String name){
         HashMap result = new HashMap<String, String>();
         // 1.接收小程序发送的code
         // 2.开发者服务器 登录凭证校验接口 appid + appsecret + code
@@ -53,6 +55,7 @@ public class UserController {
             user.setOpenid(openid);
             user.setSession_key(sessionKey);
             user.setMy_session_key(skey);
+            user.setName(name);
             userService.insertNewUser(user);
         }else {
             HashMap<String, Object> info = new HashMap<>();

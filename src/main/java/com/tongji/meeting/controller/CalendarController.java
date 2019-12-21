@@ -3,7 +3,9 @@ package com.tongji.meeting.controller;
 import com.tongji.meeting.model.Calendar;
 import com.tongji.meeting.model.UserCalendar;
 import com.tongji.meeting.service.CalendarService;
+import com.tongji.meeting.service.NoticeService;
 import com.tongji.meeting.service.UserCalendarService;
+import com.tongji.meeting.service.UserService;
 import com.tongji.meeting.util.redis.RedisUtils;
 import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,13 @@ public class CalendarController {
     @Autowired
     private RedisUtils redisUtils;
 
-    @GetMapping("/newCalendar")
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private NoticeService noticeService;
+
+    @PostMapping("/newCalendar")
     public ResponseEntity newCalendar(
             @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value = "calendarName",required = true)String calendarName
@@ -46,7 +54,7 @@ public class CalendarController {
         return ResponseEntity.ok(newCalendarId);
 }
 
-    @GetMapping("/participateCalendar")
+    @PostMapping("/participateCalendar")
     public ResponseEntity participateCalendar(
             @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value = "calendarId",required = true)Integer calendarId
@@ -62,15 +70,18 @@ public class CalendarController {
         return ResponseEntity.ok("participant calendar successfully");
     }
 
-    @GetMapping("/disbandCalendar")
+    @DeleteMapping("/disbandCalendar")
     public ResponseEntity disbandCalendar(
-            @RequestParam(value = "calendarId",required = true)int calendarId
+            @RequestHeader(value = "Authorization",required = true)String sKey,
+            @RequestParam(value = "calendarId",required = true)Integer calendarId
     ){
+        String openid = (String) redisUtils.hget(sKey, "openid");
         calendarService.disbandCalendar(calendarId);
+        noticeService.sendMsgOfUngroup(calendarId, userService.selectUserByOpenid(openid).getName());
         return ResponseEntity.ok("disband calendar successfully");
     }
 
-    @GetMapping("/quitCalendar")
+    @DeleteMapping("/quitCalendar")
     public ResponseEntity quitCalendar(
             @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value = "calendarId",required = true)Integer calendarId
@@ -80,7 +91,7 @@ public class CalendarController {
         return ResponseEntity.ok("quit calendar successfully");
     }
 
-    @GetMapping("/setNoDisturb")
+    @PutMapping("/setNoDisturb")
     public ResponseEntity setDisturb(
             @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value="calendarId",required = true )Integer calendarId,
@@ -91,7 +102,7 @@ public class CalendarController {
         return ResponseEntity.ok("set the disturb mode successfully");
     }
 
-    @GetMapping("/setDetailExposed")
+    @PutMapping("/setDetailExposed")
     public ResponseEntity setDetailExposed(
             @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value="calendarId",required = true )Integer calendarId,

@@ -2,8 +2,11 @@ package com.tongji.meeting.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.tongji.meeting.util.redis.RedisUtils;
 import org.apache.shiro.codec.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -14,8 +17,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Component
 public class WechatUtil {
+
+    private static RedisUtils redisUtils;
+
+    @Autowired
+    public WechatUtil(RedisUtils redisUtils) {
+        WechatUtil.redisUtils = redisUtils;
+    }
 
     public static JSONObject getSessionKeyOrOpenId(String code) {
         String requestUrl = "https://api.weixin.qq.com/sns/jscode2session";
@@ -33,7 +43,7 @@ public class WechatUtil {
         return jsonObject;
     }
 
-    public static JSONObject getAccessToken(){
+    private static JSONObject getAccessToken(){
         String requestUrl = "https://api.weixin.qq.com/cgi-bin/token";
         Map<String, String> requestUrlParam = new HashMap<>();
         requestUrlParam.put("appid", GlobalValues.appId);
@@ -77,17 +87,16 @@ public class WechatUtil {
         return null;
     }
 
-    public static boolean sendMessage(String access_token, String openId, String template_id, JSONObject data, String page){
+    public static boolean sendMessage(String access_token, String openid, String template_id, JSONObject data, String page){
         String requestUrl = "https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=";
-        Map<String, String> requrstUrlParam = new HashMap<>();
-        requrstUrlParam.put("access_token", access_token);
-        requrstUrlParam.put("openId", openId);
-        requrstUrlParam.put("template_id", template_id);
-        requrstUrlParam.put("data", data.toJSONString());
+        JSONObject jsonRequest = new JSONObject();
+        jsonRequest.put("touser", openid);
+        jsonRequest.put("template_id", template_id);
+        jsonRequest.put("data", data);
         if (page != null){
-            requrstUrlParam.put("page", page);
+            jsonRequest.put("page", page);
         }
-        JSONObject jsonObject = JSON.parseObject(HttpClientUtil.doPost(requestUrl+access_token, requrstUrlParam));
+        JSONObject jsonObject = JSON.parseObject(HttpClientUtil.doPostJson(requestUrl+access_token, jsonRequest.toJSONString()));
         if (jsonObject.containsKey("errcode")&&jsonObject.getInteger("errcode")!=0){
             System.out.println(jsonObject.getString("errmsg"));
             return false;
@@ -97,6 +106,28 @@ public class WechatUtil {
 
     public static boolean sendMessage(String access_token, String openId, String template_id, JSONObject data){
         return sendMessage(access_token, openId, template_id, data, null);
+    }
+
+    public static boolean sendMessage(String openId, String template_id, JSONObject data){
+        return sendMessage(getAccessTokenInRedis(), openId, template_id, data);
+    }
+
+    public static void updateAccessTokenInRedis(){
+        JSONObject data = WechatUtil.getAccessToken();
+        if (data.containsKey("errcode")&&data.getInteger("errcode")!=0){
+            System.out.println(data.getString("errmsg"));
+        }else {
+            String access_token = data.getString("access_token");
+            long expires_in = data.getLong("expires_in");
+            redisUtils.set("access_token", access_token, expires_in);
+        }
+    }
+
+    public static String getAccessTokenInRedis(){
+        if (!redisUtils.hasKey("access_token")){
+            updateAccessTokenInRedis();
+        }
+        return  (String)redisUtils.get("access_token");
     }
 
 }
