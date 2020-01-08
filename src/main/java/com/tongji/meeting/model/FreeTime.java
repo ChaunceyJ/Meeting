@@ -1,8 +1,6 @@
-package com.tongji.meeting;
+package com.tongji.meeting.model;
 
-import com.tongji.meeting.model.Event;
-import com.tongji.meeting.model.EventAllInfo;
-import com.tongji.meeting.model.EventDetail;
+import com.tongji.meeting.util.TimePeriod;
 
 import java.util.ArrayList;
 import java.util.Collections;

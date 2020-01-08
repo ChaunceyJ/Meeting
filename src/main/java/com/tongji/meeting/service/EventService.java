@@ -1,10 +1,7 @@
 package com.tongji.meeting.service;
 
-import com.tongji.meeting.FreeTime;
-import com.tongji.meeting.TimePeriod;
 import com.tongji.meeting.dao.*;
 import com.tongji.meeting.model.*;
-import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

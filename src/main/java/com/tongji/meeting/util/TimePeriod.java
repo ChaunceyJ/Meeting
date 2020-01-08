@@ -1,9 +1,6 @@
-package com.tongji.meeting;
-
-import com.tongji.meeting.model.Event;
+package com.tongji.meeting.util;
 
 import java.util.Date;
-import java.util.List;
 
 public class TimePeriod implements Comparable<TimePeriod>{
     Date startTime;
