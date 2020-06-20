@@ -34,16 +34,19 @@ public class CalendarService {
         List<Calendar> calendarList=calendarDao.getCreatedCalendar(userId);
         List<Integer> memberNum=new ArrayList<>();
         List<Integer> eventNum=new ArrayList<>();
+        List<Boolean> disturbModes=new ArrayList<>();
         int calendarId;
         for(Calendar calendar:calendarList){
             calendarId=calendar.getCalendarId();
             memberNum.add(userCalendarDao.getMemberNum(calendarId));
             eventNum.add(eventDao.getEventNum(calendarId));
+            disturbModes.add(userCalendarDao.getDisturbStatus(userId,calendarId));
         }
         Hashtable<String,Object> createdCalendar = new Hashtable<>();
         createdCalendar.put("calendarList",calendarList);
         createdCalendar.put("memberNum",memberNum);
         createdCalendar.put("eventNum",eventNum);
+        createdCalendar.put("disturbModes",disturbModes);
         return createdCalendar;
     }
 
@@ -51,16 +54,19 @@ public class CalendarService {
         List<Calendar> calendarList=calendarDao.getParticipantCalendar(userId);
         List<Integer> memberNum=new ArrayList<>();
         List<Integer> eventNum=new ArrayList<>();
+        List<Boolean> disturbModes=new ArrayList<>();
         int calendarId;
         for(Calendar calendar:calendarList){
             calendarId=calendar.getCalendarId();
             memberNum.add(userCalendarDao.getMemberNum(calendarId));
             eventNum.add(eventDao.getEventNum(calendarId));
+            disturbModes.add(userCalendarDao.getDisturbStatus(userId,calendarId));
         }
         Hashtable<String,Object> participantCalendar = new Hashtable<>();
         participantCalendar.put("calendarList",calendarList);
         participantCalendar.put("memberNum",memberNum);
         participantCalendar.put("eventNum",eventNum);
+        participantCalendar.put("disturbModes",disturbModes);
         return participantCalendar;
     }
 

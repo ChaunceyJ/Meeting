@@ -3,10 +3,9 @@ package com.tongji.meeting.controller;
 import com.tongji.meeting.model.Calendar;
 import com.tongji.meeting.model.UserCalendar;
 import com.tongji.meeting.service.CalendarService;
-import com.tongji.meeting.service.NoticeService;
 import com.tongji.meeting.service.UserCalendarService;
-import com.tongji.meeting.service.UserService;
 import com.tongji.meeting.util.redis.RedisUtils;
+import io.swagger.annotations.ApiOperation;
 import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +25,8 @@ public class CalendarController {
     @Autowired
     private RedisUtils redisUtils;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private NoticeService noticeService;
-
-    @PostMapping("/newCalendar")
+    @ApiOperation(value = "创建新日历", notes="")
+    @GetMapping("/newCalendar")
     public ResponseEntity newCalendar(
             @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value = "calendarName",required = true)String calendarName
@@ -54,7 +48,8 @@ public class CalendarController {
         return ResponseEntity.ok(newCalendarId);
 }
 
-    @PostMapping("/participateCalendar")
+    @ApiOperation(value = "获取某日历中参与成员信息", notes="")
+    @GetMapping("/participateCalendar")
     public ResponseEntity participateCalendar(
             @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value = "calendarId",required = true)Integer calendarId
@@ -70,18 +65,17 @@ public class CalendarController {
         return ResponseEntity.ok("participant calendar successfully");
     }
 
-    @DeleteMapping("/disbandCalendar")
+    @ApiOperation(value = "解散日历工作组", notes="")
+    @GetMapping("/disbandCalendar")
     public ResponseEntity disbandCalendar(
-            @RequestHeader(value = "Authorization",required = true)String sKey,
-            @RequestParam(value = "calendarId",required = true)Integer calendarId
+            @RequestParam(value = "calendarId",required = true)int calendarId
     ){
-        String openid = (String) redisUtils.hget(sKey, "openid");
         calendarService.disbandCalendar(calendarId);
-        noticeService.sendMsgOfUngroup(calendarId, userService.selectUserByOpenid(openid).getName());
         return ResponseEntity.ok("disband calendar successfully");
     }
 
-    @DeleteMapping("/quitCalendar")
+    @ApiOperation(value = "退出日历工作组", notes="")
+    @GetMapping("/quitCalendar")
     public ResponseEntity quitCalendar(
             @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value = "calendarId",required = true)Integer calendarId
@@ -91,7 +85,8 @@ public class CalendarController {
         return ResponseEntity.ok("quit calendar successfully");
     }
 
-    @PutMapping("/setNoDisturb")
+    @ApiOperation(value = "设置对某日历工作组勿扰模式", notes="")
+    @GetMapping("/setNoDisturb")
     public ResponseEntity setDisturb(
             @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value="calendarId",required = true )Integer calendarId,
@@ -102,7 +97,8 @@ public class CalendarController {
         return ResponseEntity.ok("set the disturb mode successfully");
     }
 
-    @PutMapping("/setDetailExposed")
+    @ApiOperation(value = "设置对日历工作组隐私模式", notes="")
+    @GetMapping("/setDetailExposed")
     public ResponseEntity setDetailExposed(
             @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value="calendarId",required = true )Integer calendarId,
@@ -113,6 +109,7 @@ public class CalendarController {
         return ResponseEntity.ok("set the detail exposed successfully");
     }
 
+    @ApiOperation(value = "获得我创建的日历工作组", notes="")
     @GetMapping("/myCreated")
     public ResponseEntity selectCreate(
             @RequestHeader(value = "Authorization",required = true)String sKey
@@ -121,6 +118,7 @@ public class CalendarController {
         return ResponseEntity.ok(calendarService.getCreatedCalendar(userId));
     }
 
+    @ApiOperation(value = "获得我的个人日历", notes="")
     @GetMapping("/myCalendar")
     public ResponseEntity selectMine(
             @RequestHeader(value = "Authorization",required = true)String sKey
@@ -129,6 +127,7 @@ public class CalendarController {
         return ResponseEntity.ok(calendarService.getMyCalendar(userId));
     }
 
+    @ApiOperation(value = "获得我参与的日历工作组", notes="")
     @GetMapping("/myParticipated")
     public ResponseEntity selectParticipate(
             @RequestHeader(value = "Authorization",required = true)String sKey
@@ -137,10 +136,23 @@ public class CalendarController {
         return ResponseEntity.ok(calendarService.getParticipantCalendar(userId));
     }
 
+    @ApiOperation(value = "获得某日历工作组中所有成员", notes="")
     @GetMapping("/members")
     public ResponseEntity member(
+            @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value="calendarId",required = true )Integer calendarId
     ){
-        return ResponseEntity.ok(userCalendarService.getAllMembers(calendarId));
+        int userId = (int)redisUtils.hget(sKey, "userid");
+        return ResponseEntity.ok(userCalendarService.getAllMembers(userId,calendarId));
+    }
+
+    @ApiOperation(value = "获得对日历工作组勿扰模式的设置情况", notes="")
+    @GetMapping("/disturbStatus")
+    public ResponseEntity getDisturbStatus(
+            @RequestHeader(value = "Authorization",required = true)String sKey,
+            @RequestParam(value="calendarId",required = true )Integer calendarId
+    ){
+        int userId = (int)redisUtils.hget(sKey, "userid");
+        return ResponseEntity.ok(userCalendarService.getDisturbStatus(userId,calendarId));
     }
 }

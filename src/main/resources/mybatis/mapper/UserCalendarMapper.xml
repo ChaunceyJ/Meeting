@@ -35,4 +35,10 @@
         FROM user_calendar
         WHERE calendar_id=#{calendarId}
     </select>
+
+    <select id="getDisturbStatus" resultType="java.lang.Boolean">
+        SELECT is_dnd
+        FROM user_calendar
+        WHERE user_id=#{userId} AND calendar_id=#{calendarId}
+    </select>
 </mapper>

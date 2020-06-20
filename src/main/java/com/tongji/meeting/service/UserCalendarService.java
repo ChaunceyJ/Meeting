@@ -28,11 +28,17 @@ public class UserCalendarService {
         userCalendarDao.quitCalendar(userId,calendarId);
     }
 
-    public void setNoDisturb(Integer userId,Integer calendarId,Boolean disturb){userCalendarDao.setNoDisturb(userId,calendarId,disturb);}
-
-    public void setDetailExposed(Integer userId,Integer calendarId,Boolean disturb){userCalendarDao.setDetailExposed(userId,calendarId,disturb);}
-
-    public List<UserDomain> getAllMembers(Integer calendarId){
-        return userDao.getAllMembers(calendarId);
+    public void setNoDisturb(Integer userId,Integer calendarId,Boolean disturb){
+        userCalendarDao.setNoDisturb(userId,calendarId,disturb);
     }
+
+    public void setDetailExposed(Integer userId,Integer calendarId,Boolean disturb){
+        userCalendarDao.setDetailExposed(userId,calendarId,disturb);
+    }
+
+    public List<UserDomain> getAllMembers(Integer userId,Integer calendarId){
+        return userDao.getAllMembers(userId,calendarId);
+    }
+
+    public boolean getDisturbStatus(Integer userId,Integer calendarId){return userCalendarDao.getDisturbStatus(userId,calendarId);}
 }

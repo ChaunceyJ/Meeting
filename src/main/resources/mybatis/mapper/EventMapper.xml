@@ -21,7 +21,7 @@
     </delete>
 
     <select id="retrieveByCalendar" resultMap="Event">
-        select * from event where calendar_id = #{detailId} and is_overriden = 0;
+        select * from event where calendar_id = #{calendarId} and is_overriden = 0;
     </select>
 
     <select id="getEventNum" resultType="java.lang.Integer">

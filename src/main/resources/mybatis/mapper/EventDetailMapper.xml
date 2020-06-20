@@ -28,23 +28,9 @@
 
     <update id="update" parameterType="EventDetail">
         update event_detail
-        <set>
-            <if test="title != null">
-                title = #{title},
-            </if>
-            <if test="content != null">
-                content = #{content},
-            </if>
-            <if test="startTime != null">
-                start_time = #{startTime},
-            </if>
-            <if test="endTime != null">
-                end_time = #{endTime},
-            </if>
-        </set>
+        set title = #{title},content = #{content},start_time = #{startTime},end_time = #{endTime}
         where detail_id = #{detailId}
     </update>
-
 
     <delete id="delete" parameterType="EventDetail">
         DELETE from event_detail where detail_id = #{detailId}
