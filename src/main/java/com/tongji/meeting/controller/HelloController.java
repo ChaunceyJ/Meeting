@@ -29,12 +29,10 @@ public class HelloController {
         return new ResponseEntity("Unauthorized", HttpStatus.UNAUTHORIZED);
     }
 
-
     @RequestMapping(value = "/test" , method = RequestMethod.GET ,produces = "application/json")
     public ResponseEntity test(
             @RequestParam(value = "date")
                     Date title
-
     ){
         System.out.println(title);
         return ResponseEntity.ok(title);

@@ -58,4 +58,8 @@ public class UserService {
             return records.get(0);
         }
     }
+
+    public void updateUserName(UserDomain user){
+        userDao.updateUser(user);
+    }
 }

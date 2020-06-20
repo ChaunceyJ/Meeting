@@ -24,11 +24,10 @@
         INSERT INTO
         <include refid="BASE_TABLE"/>
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            open_id, name
+            open_id
         </trim>
         <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
-            #{openid, jdbcType=VARCHAR},
-            #{name, jdbcType=VARCHAR}
+            #{openid, jdbcType=VARCHAR}
         </trim>
     </insert>
 
@@ -48,7 +47,7 @@
             </if>
         </set>
         <where>
-            userid = #{userid, jdbcType=INTEGER}
+            user_id = #{userid, jdbcType=INTEGER}
         </where>
     </update>
 

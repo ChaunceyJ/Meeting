@@ -10,7 +10,8 @@
     </parent>
     <groupId>com.tongji</groupId>
     <artifactId>meeting</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
+    <packaging>jar</packaging>
     <name>meeting</name>
     <description>Java EE project</description>
 
@@ -122,6 +123,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                </configuration>
             </plugin>
         </plugins>
     </build>
