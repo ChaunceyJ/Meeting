@@ -19,9 +19,7 @@ public interface UserDao {
 
     List<UserDomain> selectUsersByOpenid(@Param("openid") String openid);
 
-    List<UserDomain> getAllMembers(Integer calendarId);
+    List<UserDomain> getAllMembers(@Param("userId") Integer userId,@Param("calendarId") Integer calendarId);
 
-    List<UserDomain> getAllMembersOpenid(Integer calendarId);
-
-
+    List<UserDomain> getAllMembersWithMe(int calendarId);
 }

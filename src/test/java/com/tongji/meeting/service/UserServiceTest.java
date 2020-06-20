@@ -16,12 +16,14 @@ class UserServiceTest {
 
     @Test
     void insertNewUser() {
-        user.setSession_key("124124");
-        user.setMy_session_key("352353");
-        user.setOpenid("2312414");
-        user.setName("test");
+        user.setSession_key("12er3456");
+        user.setMy_session_key("123e456");
+        user.setOpenid("1234wrt56");
         userService.insertNewUser(user);
         System.out.println(user.getUserid());
+        user.setName("cdcdcd");
+        userService.updateUserName(user);
+
     }
 
     @Test

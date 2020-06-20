@@ -24,11 +24,10 @@
         INSERT INTO
         <include refid="BASE_TABLE"/>
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            open_id, name
+            open_id
         </trim>
         <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
-            #{openid, jdbcType=VARCHAR},
-            #{name, jdbcType=VARCHAR}
+            #{openid, jdbcType=VARCHAR}
         </trim>
     </insert>
 
@@ -36,7 +35,7 @@
         DELETE FROM
         <include refid="BASE_TABLE"/>
         WHERE
-        userid = #{userid, jdbcType=INTEGER}
+        user_id = #{userid, jdbcType=INTEGER}
     </delete>
     <!-- 更新用户信息，为空的字段不进行置空 -->
     <update id="updateUser" parameterType="com.tongji.meeting.model.UserDomain">
@@ -48,7 +47,7 @@
             </if>
         </set>
         <where>
-            userid = #{userid, jdbcType=INTEGER}
+            user_id = #{userid, jdbcType=INTEGER}
         </where>
     </update>
 
@@ -72,11 +71,11 @@
     <select id="getAllMembers" resultMap="userResultMap">
         SELECT u.user_id,u.name
         FROM user_calendar uc LEFT JOIN user u ON uc.user_id = u.user_id
-        WHERE uc.calendar_id=#{calendarId}
+        WHERE uc.calendar_id=#{calendarId} AND uc.user_id!=#{userId}
     </select>
 
-    <select id="getAllMembersOpenid" resultMap="userResultMap">
-        SELECT u.open_id
+    <select id="getAllMembersWithMe" resultMap="userResultMap">
+        SELECT u.user_id,u.name
         FROM user_calendar uc LEFT JOIN user u ON uc.user_id = u.user_id
         WHERE uc.calendar_id=#{calendarId}
     </select>

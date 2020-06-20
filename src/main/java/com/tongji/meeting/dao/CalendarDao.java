@@ -15,5 +15,4 @@ public interface CalendarDao {
     List<Calendar> getParticipantCalendar(Integer userId);
     Calendar getMyCalendar(Integer userId);
     int memberNum(Integer calendarId);
-    List<Calendar> getCalendarById(Integer calendarId);
 }

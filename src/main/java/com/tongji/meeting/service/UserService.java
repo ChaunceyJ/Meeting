@@ -42,12 +42,21 @@ public class UserService {
         return re;
     }
 
+    public void updateUserName(UserDomain user){
+        userDao.updateUser(user);
+    }
+
+
     public void updateSessionKey(UserDomain record){
         HashMap<String, Object> info = new HashMap<>();
         info.put("userid", record.getUserid());
         info.put("openid", record.getOpenid());
         info.put("session_key", record.getSession_key());
         redisUtils.hmset(record.getMy_session_key(), info, GlobalValues.mySessionTime);
+    }
+
+    public int insert(UserDomain record) {
+        return userDao.insert(record);
     }
 
     public UserDomain selectUserByOpenid(String openid) {

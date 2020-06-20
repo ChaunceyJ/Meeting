@@ -12,28 +12,4 @@
     </insert>
 
 
-    <resultMap type="com.tongji.meeting.model.EventReminder" id="ReminderMap">
-        <association property="eventDetail" javaType="com.tongji.meeting.model.EventDetail">
-            <result property="title" column="title"/>
-            <result property="content" column="content"/>
-            <result property="startTime" column="start_time"/>
-            <result property="endTime" column="end_time"/>
-        </association>
-        <association property="user" javaType="com.tongji.meeting.model.UserDomain">
-            <result property="name" column="name"/>
-            <result property="openid" column="open_id"/>
-        </association>
-    </resultMap>
-
-    <select id="getRemindEvent" resultMap="ReminderMap">
-        select d.title, d.content, d.start_time, d.end_time, u.name, u.open_id from event_detail d
-        join (select * from event natural join event_reminder where remind_time &lt; date_sub(now(), interval 1 minute ) )e
-        join (select * from user natural join user_detail) u
-        on d.detail_id = e.detail_id = u.detail_id;
-    </select>
-
-
-
-
-
 </mapper>

@@ -16,4 +16,5 @@ public interface UserCalendarDao {
     void setDetailExposed(@Param("userId") Integer userId,@Param("calendarId") Integer calendarId,@Param("detailExposed") Boolean detailExposed);
     Boolean retrieveIsExposeDetailByPK(int userId, int calendarId);
     int getMemberNum(int calendarId);
+    Boolean getDisturbStatus(@Param("userId") Integer userId,@Param("calendarId") Integer calendarId);
 }

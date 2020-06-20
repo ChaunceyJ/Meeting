@@ -28,7 +28,7 @@ public class EventController {
 
 
     //再次检查创建权限
-    @ApiOperation(value = "创建新事件", notes="某用户在某日历中创建新事件，加入组员不在这个api")
+    @ApiOperation(value = "创建个人新事件", notes="某用户在某日历中创建新事件，加入组员不在这个api")
     @RequestMapping(value = "/addNewEvent" , method = RequestMethod.GET ,produces = "application/json")
     public ResponseEntity addNewEvent(
             @RequestParam(value = "title")
@@ -183,13 +183,84 @@ public class EventController {
         return ResponseEntity.ok("Success!");
     }
 
-//    @ApiOperation(value = "推荐时间", notes="")
-//    @RequestMapping(value = "/recommend" , method = RequestMethod.GET ,produces = "application/json")
-//    public ResponseEntity recommend(
-//            @RequestParam(value = "calendarId") int calendarId,
-//            @RequestParam(value = "duration") Date duration,
+    @ApiOperation(value = "推荐时间", notes="")
+    @RequestMapping(value = "/recommend" , method = RequestMethod.GET ,produces = "application/json")
+    public ResponseEntity recommend(
+            @RequestParam(value = "calendarId") int calendarId,
+            @RequestParam(value = "duration") int duration
 //            @RequestParam(value = "priority") int priority
-//            ){
-//        return ResponseEntity.ok(eventService.recommend(calendarId,duration,priority));
-//    }
+            ){
+        return ResponseEntity.ok(eventService.recommend(calendarId,duration));
+    }
+
+    @ApiOperation(value = "创建工作组新事件", notes="检查是否存在优先级冲突")
+    @RequestMapping(value = "/addGroupEvent" , method = RequestMethod.GET ,produces = "application/json")
+    public ResponseEntity addGroupvent(
+            @RequestParam(value = "title")
+                    String title,
+            @RequestParam(value = "content")
+                    String content,
+            @RequestParam(value = "priority")
+                    int priority,
+            @RequestParam(value = "start_time")
+                    Date startTime,
+            @RequestParam(value = "end_time")
+                    Date endTime,
+            @RequestParam(value = "calendar_id")
+                    int calendarId,
+            @RequestParam(value = "is_remind")
+                    int isRemind,
+            @RequestParam(value = "remind_time", required = false)
+                    Date remindTime,
+            @RequestParam(value = "is_repeat")
+                    int isRepeat,
+            @RequestParam(value = "repeat_unit",required = false)//"0"代表不重复，接受“day","week","month",,,,
+                    String repeatUnit,
+            @RequestParam(value = "repeat_amount",required = false)//每几天，每几周的”几“
+                    Integer repeatAmount,
+            @RequestHeader(value = "Authorization")
+                    String sKey
+    ){
+        int userId = (int)redisUtils.hget(sKey, "userid");
+
+        EventDetail eventDetail = new EventDetail();
+        eventDetail.setStartTime(startTime);
+        eventDetail.setTitle(title);
+        eventDetail.setEndTime(endTime);
+        eventDetail.setContent(content);
+        eventDetail.setRepeat(isRepeat);
+
+        Event event = new Event();
+        event.setCalendarId(calendarId);
+        event.setPriority(priority);
+        event.setIsRemind(isRemind);
+
+        UserDetail userDetail = new UserDetail();
+        userDetail.setUserId(userId);
+
+        EventReminder eventReminder = new EventReminder();
+        EventRepetition eventRepetition =new EventRepetition();
+
+        if (isRemind == 1) {
+            eventReminder.setRemindTime(remindTime);
+        }
+        if (isRepeat == 1) {
+            eventRepetition.setRepeatAmount(1);
+            eventRepetition.setRepeatUnit("week");
+        }
+
+        return ResponseEntity.ok(eventService.addGroupEvent(
+                eventDetail, event, userDetail, eventReminder, eventRepetition));
+    }
+
+    @ApiOperation(value = "显示组里某人日历事件", notes="根据隐私来")
+    @RequestMapping(value = "/showOthersEvent" , method = RequestMethod.GET ,produces = "application/json")
+    public ResponseEntity showOthersEvent(
+            @RequestParam(value = "userid") int userId,
+            @RequestHeader(value = "Authorization")
+                    String sKey
+    ){
+        System.out.println("=!!!!!!进入controller=");
+        return ResponseEntity.ok(eventService.showOthersEvent(userId));
+    }
 }
