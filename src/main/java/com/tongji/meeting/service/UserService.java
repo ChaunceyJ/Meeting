@@ -68,7 +68,7 @@ public class UserService {
         }
     }
 
-    public void updateUserName(UserDomain user){
-        userDao.updateUser(user);
-    }
+//    public void updateUserName(UserDomain user){
+//        userDao.updateUser(user);
+//    }
 }

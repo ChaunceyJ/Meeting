@@ -73,6 +73,7 @@ public class UserController {
             @RequestHeader(value = "Authorization",required = true)String sKey,
             @RequestParam(value = "userName",required = true)String userName
     ){
+//        System.out.println(sKey);
         int userId = (int)redisUtils.hget(sKey, "userid");
         UserDomain user = new UserDomain();
         user.setUserid(userId);
